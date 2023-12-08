@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost/api/auth/weatherforecast').then((result) => {
+      result.json().then((body) => {
+
+        console.log('setting body');
+        setWeather(body);
+      })
+    }).catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
@@ -28,6 +39,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      {weather && <p>{JSON.stringify(weather)}</p>}
     </>
   )
 }
