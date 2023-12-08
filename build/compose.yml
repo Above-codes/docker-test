@@ -1,0 +1,25 @@
+﻿version: '3.8'
+
+services:
+  auth:
+    build: 
+      context: ..
+      dockerfile: ./src/Authentication/Dockerfile
+      
+  casa:
+    build:
+      context: ..
+      dockerfile: ./src/CASA/Dockerfile
+  
+  rabbitmq:
+    build: ./rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: detforhuf
+    ports:
+      - "4001:15672"
+    
+  proxy-and-frontend:
+    build: ../src/frontend
+    ports:
+      - "80:80"
